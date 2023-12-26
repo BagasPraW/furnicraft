@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'about.dart';
+import 'furniture_list.dart';
+import 'profile_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:latihan_firebase/screen/furniture_list.dart';
+import 'profile_page.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -24,39 +29,97 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.black,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundImage: AssetImage('assets/profile_image.png'),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Nama Pengguna',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                  Text(
+                    'email@example.com',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profile'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileApp()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Home'),
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.update),
+              title: Text('Update Barang'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FurnitureApp()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.info),
+              title: Text('About'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AboutPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () {
+                // Handle Logout onTap
+              },
+            ),
+          ],
+        ),
+      ),
       body: Padding(
         padding: EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Column(
             children: [
               Padding(
-                  padding: EdgeInsets.all(5),
-                  child: TextField(
-                      // controller: tinggi_badan,
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.left,
-                      decoration: InputDecoration(
-                        hintText: 'Centimeter',
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0))),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(0xFF000000), width: 1.0),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15.0),
-                            )),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.search, color: Colors.black),
-                          onPressed: () {
-                            // Aksi yang ingin dilakukan ketika ikon pencarian ditekan
-                            // Misalnya, tampilkan dialog pencarian atau lakukan navigasi.
-                            print('Search icon pressed!');
-                          },
-                        ),
-                      ))),
+                padding: EdgeInsets.all(5),
+                child: TextField(
+                    // Your TextField widget
+                    ),
+              ),
               const SizedBox(height: 20),
             ],
           ),
