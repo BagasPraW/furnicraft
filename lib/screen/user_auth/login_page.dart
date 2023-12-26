@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:pertemuan_8/page/register_page.dart';
 import 'package:flutter/material.dart';
-import 'package:latihan_firebase/screen/page/forgot_password.dart';
-import 'package:latihan_firebase/screen/page/register_page.dart';
-import '../utils/rounded_button.dart';
+import 'package:furnicraft/screen/user_auth/forgot_password.dart';
+import 'package:furnicraft/screen/user_auth/register_page.dart';
+import 'package:furnicraft/utils/rounded_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 //code for designing the UI of our text field where the user writes his

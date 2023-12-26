@@ -3,8 +3,11 @@ import 'about.dart';
 import 'furniture_list.dart';
 import 'profile_page.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:latihan_firebase/screen/furniture_list.dart';
 import 'profile_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
+late User loggedinUser;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,6 +17,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final _auth = FirebaseAuth.instance;
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  //using this function you can use the credentials of the user
+  void getCurrentUser() async {
+    try {
+      final user = await _auth.currentUser;
+      if (user != null) {
+        loggedinUser = user;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

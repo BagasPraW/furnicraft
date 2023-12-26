@@ -1,13 +1,13 @@
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:latihan_firebase/screen/page/login_page.dart';
-import 'package:latihan_firebase/screen/page/register_page.dart';
-import 'package:latihan_firebase/screen/page/welcome_page.dart';
-import 'package:latihan_firebase/screen/page/home_page.dart';
-import 'package:latihan_firebase/screen/page/forgot_password.dart';
+import 'package:furnicraft/screen/user_auth/login_page.dart';
+import 'package:furnicraft/screen/user_auth/register_page.dart';
+import 'package:furnicraft/screen/welcome_page.dart';
+import 'package:furnicraft/screen/home_screen.dart';
+import 'package:furnicraft/screen/user_auth/forgot_password.dart';
+
 
 import 'firebase_options.dart';
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'login_screen',
+      initialRoute: 'login_page',
       home: LoginScreen(),
       routes: {
         'welcome_screen': (context) => WelcomeScreen(),

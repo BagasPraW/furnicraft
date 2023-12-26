@@ -1,10 +1,9 @@
-import 'dart:js';
+
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'login_page.dart';
-import 'package:latihan_firebase/screen/page/login_page.dart';
-import '../utils/rounded_button.dart';
+import 'package:furnicraft/screen/user_auth/login_page.dart';
+import 'package:furnicraft/utils/rounded_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const kTextFieldDecoration = InputDecoration(

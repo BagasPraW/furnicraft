@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../utils/rounded_button.dart';
+import 'package:furnicraft/utils/rounded_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
