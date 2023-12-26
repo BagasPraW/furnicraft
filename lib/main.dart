@@ -1,13 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:furnicraft/screen/splash_screen.dart';
 import 'package:furnicraft/screen/user_auth/login_page.dart';
 import 'package:furnicraft/screen/user_auth/register_page.dart';
 import 'package:furnicraft/screen/welcome_page.dart';
 import 'package:furnicraft/screen/home_screen.dart';
 import 'package:furnicraft/screen/user_auth/forgot_password.dart';
-
 
 import 'firebase_options.dart';
 
@@ -26,8 +25,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'login_page',
-      home: LoginScreen(),
+      initialRoute: 'splash_screen',
+      home: SplashScreen(),
       routes: {
         'welcome_screen': (context) => WelcomeScreen(),
         'registration_screen': (context) => RegistrationScreen(),
