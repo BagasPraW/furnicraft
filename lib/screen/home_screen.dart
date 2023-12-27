@@ -5,7 +5,7 @@ import 'profile_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:carousel_slider/carousel_slider.dart';
 
 late User loggedinUser;
 
@@ -17,8 +17,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final _auth = FirebaseAuth.instance;
+   List<String> cardData = List.generate(1, (index) => 'Card $index');
+  // List<String> hari = ['1','1','1','1','1','1','1',];
+
   void initState() {
     super.initState();
     getCurrentUser();
@@ -35,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
       print(e);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,18 +133,147 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(20),
           child: Column(
-            children: [
+            children: <Widget>[
               Padding(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.zero,
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 200,
+                    autoPlay: true,
+                    aspectRatio: 16 / 9,
+                    enlargeCenterPage: true,
+                  ),
+                  items: [
+                    'logo_furnicraft.png',
+                    'carousel_1.png',
+                    'carousel_1.png',
+                    'carousel_1.png'
+                    // ... add more image URLs as needed
+                  ].map((item) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          child: Image.asset(
+                            item,
+                            fit: BoxFit
+                                .cover, // Untuk menyesuaikan gambar ke dalam container
+                            width: 1000.0,
+                            // Sesuaikan ukuran gambar sesuai kebutuhan
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(20),
                 child: TextField(
-                    // Your TextField widget
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.left,
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(color: Colors.grey),
+                    hintText: 'Search',
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     ),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xFF000000), width: 1.0),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15.0),
+                        )),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black, width: 2.0),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15.0),
+                        )),
+                    suffixIcon:
+                        IconButton(icon: Icon(Icons.search), onPressed: () {}),
+                  ),
+                ),
               ),
               const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: 
+                  Card(
+                    child: 
+                    ListTile(
+                      title: Text('Kursi'),
+    
+                    ),
+                  ),
+                  ),
+                  Expanded(
+                    child: Card(
+                    child: ListTile(
+                      title: Text('Meja'),
+                 
+                    ),
+                  ),
+                  ),
+                  Expanded(
+                    child: 
+                  Card(
+                    child: ListTile(
+                      title: Text('Lemari')
+                    ),
+                  ),
+                  ),
+                  Expanded(
+                    child: 
+                  Card(
+                    child: ListTile(
+                      title: Text('Lampu')
+                    ),
+                  ),
+                  )
+                ],
+              )
+              // Padding(
+              //   padding: EdgeInsets.all(20),
+              //   child: 
+              //   // ListView.builder(
+              //   //   itemCount: hari.length + 1,
+              //   //   itemBuilder: (context, index){
+              //   //     if (index == 0){
+              //   //       return Card(
+              //   //         margin: EdgeInsets.all(20),
+              //   //         child: ListTile(
+              //   //           title: Text('card'),
+              //   //         ),
+
+              //   //       );
+              //   //     }
+              //   //   }
+              //   // )
+              //   GridView.builder(
+              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 4, // Jumlah item dalam satu baris
+              //       crossAxisSpacing:
+              //           8.0, // Spasi antara item secara horizontal
+              //       mainAxisSpacing: 8.0, // Spasi antara item secara vertikal
+              //     ),
+              //     itemCount: cardData.length,
+              //     itemBuilder: (BuildContext context, int index) {
+              //       return Card(
+              //         child: ListTile(
+              //           title: Text(cardData[index]),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // )
             ],
           ),
         ),
