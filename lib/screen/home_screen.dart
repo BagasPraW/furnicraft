@@ -6,6 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:furnicraft/utils/Card/custom_card_meja.dart';
+import 'package:furnicraft/utils/Card/custom_card_kursi.dart';
+import 'package:furnicraft/utils/Card/custom_card_lemari.dart';
 
 late User loggedinUser;
 
@@ -18,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _auth = FirebaseAuth.instance;
-   List<String> cardData = List.generate(1, (index) => 'Card $index');
+  List<String> cardData = List.generate(1, (index) => 'Card $index');
   // List<String> hari = ['1','1','1','1','1','1','1',];
 
   void initState() {
@@ -40,6 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference kursi = firestore.collection('kursi');
+    CollectionReference meja = firestore.collection('meja');
+    CollectionReference lemari = firestore.collection('lemari');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -205,44 +213,159 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: 
-                  Card(
-                    child: 
-                    ListTile(
-                      title: Text('Kursi'),
-    
+                    child: Card(
+                      child: ListTile(
+                        title: Text('Kursi'),
+                      ),
                     ),
-                  ),
                   ),
                   Expanded(
                     child: Card(
-                    child: ListTile(
-                      title: Text('Meja'),
-                 
+                      child: ListTile(
+                        title: Text('Meja'),
+                      ),
                     ),
-                  ),
                   ),
                   Expanded(
-                    child: 
-                  Card(
-                    child: ListTile(
-                      title: Text('Lemari')
+                    child: Card(
+                      child: ListTile(title: Text('Lemari')),
                     ),
-                  ),
                   ),
                   Expanded(
-                    child: 
-                  Card(
-                    child: ListTile(
-                      title: Text('Lampu')
+                    child: Card(
+                      child: ListTile(title: Text('Lampu')),
                     ),
-                  ),
                   )
                 ],
-              )
+              ),
+              SizedBox(
+                height: 40,
+              ),
+
+              Text('Kursi'),
+              SizedBox(
+                height: 15,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: <Widget>[
+                    StreamBuilder(
+                      stream: kursi.snapshots(),
+                      builder: (_, snapshot) {
+                        if (snapshot.hasData) {
+                          List<Widget> customCards = snapshot.data!.docs
+                              .map(
+                                (e) => CustomCardKursi(
+                                  (e.data() as dynamic)['id_kursi'] ?? 'N/A',
+                                  (e.data() as dynamic)['nama'] ?? 'N/A',
+                                  (e.data() as dynamic)['jenis'] ?? 'N/A',
+                                  (e.data() as dynamic)['stock'] ?? 'N/A',
+                                  (e.data() as dynamic)['gambar'] ?? 'N/A',
+                                  e.id,
+                                ),
+                              )
+                              .toList();
+
+                          return Row(
+                            children: customCards,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return Text('Loading');
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Text('Meja'),
+              SizedBox(
+                height: 15,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: <Widget>[
+                    StreamBuilder(
+                      stream: meja.snapshots(),
+                      builder: (_, snapshot) {
+                        if (snapshot.hasData) {
+                          List<Widget> customCards = snapshot.data!.docs
+                              .map(
+                                (e) => CustomCardMeja(
+                                  (e.data() as dynamic)['id_kursi'] ?? 'N/A',
+                                  (e.data() as dynamic)['nama'] ?? 'N/A',
+                                  (e.data() as dynamic)['jenis'] ?? 'N/A',
+                                  (e.data() as dynamic)['stock'] ?? 'N/A',
+                                  (e.data() as dynamic)['gambar'] ?? 'N/A',
+                                  e.id,
+                                ),
+                              )
+                              .toList();
+
+                          return Row(
+                            children: customCards,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return Text('Loading');
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Text('Lemari'),
+              SizedBox(
+                height: 15,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: <Widget>[
+                    StreamBuilder(
+                      stream: lemari.snapshots(),
+                      builder: (_, snapshot) {
+                        if (snapshot.hasData) {
+                          List<Widget> customCards = snapshot.data!.docs
+                              .map(
+                                (e) => CustomCardLemari(
+                                  (e.data() as dynamic)['id_lemari'] ?? 'N/A',
+                                  (e.data() as dynamic)['nama'] ?? 'N/A',
+                                  (e.data() as dynamic)['jenis'] ?? 'N/A',
+                                  (e.data() as dynamic)['stock'] ?? 'N/A',
+                                  (e.data() as dynamic)['gambar'] ?? 'N/A',
+                                  e.id,
+                                ),
+                              )
+                              .toList();
+
+                          return Row(
+                            children: customCards,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return Text('Loading');
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+
               // Padding(
               //   padding: EdgeInsets.all(20),
-              //   child: 
+              //   child:
               //   // ListView.builder(
               //   //   itemCount: hari.length + 1,
               //   //   itemBuilder: (context, index){
