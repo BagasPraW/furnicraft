@@ -1,66 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'home_Screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  runApp(FurnitureApp());
+  runApp(FurnitureHistoryPage());
 }
 
-class FurnitureApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Furniture List',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: FurnitureListPage(),
-    );
-  }
-}
-
-class Furniture {
-  final String name;
-  final String description;
-  final String imageUrl;
-
-  Furniture({
-    required this.name,
-    required this.description,
-    required this.imageUrl,
-  });
-}
-
-class FurnitureListPage extends StatelessWidget {
-  final List<Furniture> furnitureList = [
-    Furniture(
-      name: 'Sofa',
-      description: 'Comfortable and stylish sofa',
-      imageUrl:
-          'https://via.placeholder.com/150', // Replace with actual image URL
-    ),
-    Furniture(
-      name: 'Coffee Table',
-      description: 'Wooden coffee table with storage',
-      imageUrl:
-          'https://via.placeholder.com/150', // Replace with actual image URL
-    ),
-    Furniture(
-      name: 'Bookshelf',
-      description: 'Tall bookshelf for your books',
-      imageUrl:
-          'https://via.placeholder.com/150', // Replace with actual image URL
-    ),
-    // Add more furniture items as needed
-  ];
-
+class FurnitureHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          'Furniture List',
+          'Furniture History',
           style: GoogleFonts.bebasNeue(
             fontSize: 24,
             fontWeight: FontWeight.w400,
@@ -77,27 +31,180 @@ class FurnitureListPage extends StatelessWidget {
           },
         ),
       ),
-      body: ListView.builder(
-        itemCount: furnitureList.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(furnitureList[index].imageUrl),
-            ),
-            title: Text(furnitureList[index].name),
-            subtitle: Text(furnitureList[index].description),
-            // You can add more details or actions for each furniture item here
-            // For example, onTap to navigate to a details page
-            // onTap: () {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => FurnitureDetailsPage(furniture: furnitureList[index]),
-            //     ),
-            //   );
-            // },
-          );
-        },
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  elevation: 4,
+                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  child: ListTile(
+                    title: Text(
+                      'Create History Manually',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    onTap: () {
+                      // Add functionality for creating history manually
+                    },
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Card(
+                  elevation: 4,
+                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  child: ListTile(
+                    title: Text(
+                      'Create History by CSV',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    onTap: () {
+                      // Add functionality for creating history manually
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection('kursi').snapshots(),
+            builder: (context, snapshot) {
+              // if (!snapshot.hasData) {
+              //   return Center(
+              //     child: CircularProgressIndicator(),
+              //   );
+              // }
+              List<DocumentSnapshot> documents = snapshot.data!.docs;
+              List<DataRow> rows = [];
+
+              for (var document in documents) {
+                Map<String, dynamic> data =
+                    document.data() as Map<String, dynamic>;
+
+                DataRow row = DataRow(cells: [
+                  DataCell(Text(data['gambar'] ?? '')),
+                  DataCell(Text(data['id_kursi']?.toString() ?? '')),
+                  DataCell(Text(data['jenis']?.toString() ?? '')),
+                  DataCell(Text(data['nama']?.toString() ?? '')),
+                  DataCell(Text(data['stock']?.toString() ?? '')),
+                  DataCell(
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+                ]);
+
+                rows.add(row);
+              }
+              return DataTable(
+                columns: [
+                  DataColumn(label: Text('Gambar')),
+                  DataColumn(label: Text('ID Kursi')),
+                  DataColumn(label: Text('Jenis')),
+                  DataColumn(label: Text('Nama')),
+                  DataColumn(label: Text('Stock')),
+                  DataColumn(label: Text('AKSI')),
+                ],
+                rows: rows,
+              );
+            },
+          ),
+          SizedBox(height: 20),
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection('lemari').snapshots(),
+            builder: (context, snapshot) {
+              // if (!snapshot.hasData) {
+              //   return Center(
+              //     child: CircularProgressIndicator(),
+              //   );
+              // }
+              List<DocumentSnapshot> documents = snapshot.data!.docs;
+              List<DataRow> rows = [];
+
+              for (var document in documents) {
+                Map<String, dynamic> data =
+                    document.data() as Map<String, dynamic>;
+
+                DataRow row = DataRow(cells: [
+                  DataCell(Text(data['gambar'] ?? '')),
+                  DataCell(Text(data['id_lemari']?.toString() ?? '')),
+                  DataCell(Text(data['jenis']?.toString() ?? '')),
+                  DataCell(Text(data['nama']?.toString() ?? '')),
+                  DataCell(Text(data['stock']?.toString() ?? '')),
+                  DataCell(
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+                ]);
+
+                rows.add(row);
+              }
+              return DataTable(
+                columns: [
+                  DataColumn(label: Text('Gambar')),
+                  DataColumn(label: Text('ID Lemari')),
+                  DataColumn(label: Text('Jenis')),
+                  DataColumn(label: Text('Nama')),
+                  DataColumn(label: Text('Stock')),
+                  DataColumn(label: Text('AKSI')),
+                ],
+                rows: rows,
+              );
+            },
+          ),
+          SizedBox(height: 20),
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection('meja').snapshots(),
+            builder: (context, snapshot) {
+              // if (!snapshot.hasData) {
+              //   return Center(
+              //     child: CircularProgressIndicator(),
+              //   );
+              // }
+              List<DocumentSnapshot> documents = snapshot.data!.docs;
+              List<DataRow> rows = [];
+
+              for (var document in documents) {
+                Map<String, dynamic> data =
+                    document.data() as Map<String, dynamic>;
+
+                DataRow row = DataRow(cells: [
+                  DataCell(Text(data['gambar'] ?? '')),
+                  DataCell(Text(data['id_meja']?.toString() ?? '')),
+                  DataCell(Text(data['jenis']?.toString() ?? '')),
+                  DataCell(Text(data['nama']?.toString() ?? '')),
+                  DataCell(Text(data['stock']?.toString() ?? '')),
+                  DataCell(
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                  ),
+                ]);
+
+                rows.add(row);
+              }
+              return DataTable(
+                columns: [
+                  DataColumn(label: Text('Gambar')),
+                  DataColumn(label: Text('ID Meja')),
+                  DataColumn(label: Text('Jenis')),
+                  DataColumn(label: Text('Nama')),
+                  DataColumn(label: Text('Stock')),
+                  DataColumn(label: Text('AKSI')),
+                ],
+                rows: rows,
+              );
+            },
+          ),
+        ],
       ),
     );
   }
