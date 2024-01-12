@@ -158,14 +158,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               },
             ),
           ),
-          // RoundedButton(
-          //     colour: Color(0xFF2a475e),
-          //     title: 'Do you Already have an account ?',
-          //     onPressed: () => Navigator.pushReplacement(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => LoginScreen()),
-          //         )),
+         
         ],
       ),
     );

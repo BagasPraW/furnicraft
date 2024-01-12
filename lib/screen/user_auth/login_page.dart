@@ -51,13 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: IconButton(
-      //     icon: Icon(Icons.arrow_back, color: Colors.black),
-      //     onPressed: () => Navigator.of(context).pop(),
-      //   ),
-      // ),
-      // backgroundColor: Color(0xFF1b2838),
+      
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -207,14 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           )
-          // RoundedButton(
-          //     colour: Color(0xFF2a475e),
-          //     title: 'Do you not have an account?',
-          //     onPressed: () => Navigator.pushReplacement(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => RegistrationScreen()),
-          //         )),
+         
         ],
       ),
     );
