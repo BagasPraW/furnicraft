@@ -435,14 +435,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       );
                     },
-                    child: Icon(Icons.add),
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
                     backgroundColor: Colors.black,
                   ),
+                  SizedBox(height: 10),
                   FloatingActionButton(
                     onPressed: () {
-                     Navigator.pushNamed(context, 'add_history_page');
+                      Navigator.pushNamed(context, 'add_history_csv');
                     },
-                    child: Icon(Icons.list),
+                    child: Icon(
+                      Icons.list,
+                      color: Colors.white,
+                    ),
                     backgroundColor: Colors.black,
                   ),
                 ],
@@ -452,6 +459,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
+
 // Padding(
               //   padding: EdgeInsets.all(20),
               //   child:
@@ -486,3 +496,4 @@ class _HomeScreenState extends State<HomeScreen> {
               //     },
               //   ),
               // )
+              

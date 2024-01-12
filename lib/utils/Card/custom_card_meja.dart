@@ -46,7 +46,16 @@ class CustomCardMeja extends StatelessWidget {
                     "UBAH",
                     style: TextStyle(color: Colors.red),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'update_meja', arguments: {
+                      'nama': nama,
+                      'id_meja': id_meja,
+                      'jenis': jenis,
+                      'stock': stock,
+                      'gambar': gambar,
+                      'documentId': documentId,
+                    });
+                  },
                 ),
                 // Add a text button labeled "HAPUS" with transparent foreground color and an accent color for the text
                 TextButton(

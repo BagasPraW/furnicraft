@@ -4,14 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CustomCardKursi extends StatelessWidget {
   final String id_kursi;
   final String nama;
-  final String jenis;
-  final int stock;
-  final String gambar;
+  final String jenis_kursi;
+  final int stock_kursi;
+  final String gambar_kursi;
   final String documentId;
-  
 
-  CustomCardKursi(this.id_kursi, this.nama, this.jenis, this.stock, this.gambar,
-      this.documentId);
+  CustomCardKursi(this.id_kursi, this.nama, this.jenis_kursi, this.stock_kursi,
+      this.gambar_kursi, this.documentId);
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +25,14 @@ class CustomCardKursi extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Image.asset(
-              "$gambar",
-              height: 100,
-              width: double.infinity,
+              "$gambar_kursi",
+              height: 150,
+              width: 150,
               fit: BoxFit.cover,
             ),
             ListTile(
               title: Text("$nama"),
-              subtitle: Text("Stock : $stock"),
+              subtitle: Text("Stock : $stock_kursi"),
             ),
             Row(
               children: <Widget>[
@@ -48,7 +47,16 @@ class CustomCardKursi extends StatelessWidget {
                     "UBAH",
                     style: TextStyle(color: Colors.red),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'update_kursi', arguments: {
+                      'nama': nama,
+                      'id_kursi': id_kursi,
+                      'jenis': jenis_kursi,
+                      'stock': stock_kursi,
+                      'gambar': gambar_kursi,
+                      'documentId': documentId,
+                    });
+                  },
                 ),
                 // Add a text button labeled "HAPUS" with transparent foreground color and an accent color for the text
                 TextButton(

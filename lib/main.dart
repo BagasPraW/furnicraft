@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:furnicraft/screen/add_history_page.dart';
+import 'package:furnicraft/screen/history/add_history_csv.dart';
 import 'package:furnicraft/screen/furniture_list.dart';
 import 'package:furnicraft/screen/splash_screen.dart';
 import 'package:furnicraft/screen/user_auth/login_page.dart';
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         'login_screen': (context) => LoginScreen(),
         'home_screen': (context) => HomeScreen(),
         'reset_password': (context) => ForgotPasswordPage(),
-        'add_history_page': (context) => FurnitureHistoryPage(),
+        'add_history_csv': (context) => FurnitureHistoryPage(),
       },
     );
   }

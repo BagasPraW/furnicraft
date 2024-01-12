@@ -47,7 +47,16 @@ class CustomCardLemari extends StatelessWidget {
                     "UBAH",
                     style: TextStyle(color: Colors.red),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'update_lemari', arguments: {
+                      'nama': nama,
+                      'id_lemari': id_lemari,
+                      'jenis': jenis,
+                      'stock': stock,
+                      'gambar': gambar,
+                      'documentId': documentId,
+                    });
+                  },
                 ),
                 // Add a text button labeled "HAPUS" with transparent foreground color and an accent color for the text
                 TextButton(
