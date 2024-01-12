@@ -17,6 +17,9 @@ class _UpdateKursiState extends State<UpdateKursi> {
   final TextEditingController stockkursiController = TextEditingController();
   final TextEditingController gambarkursiController = TextEditingController();
   @override
+  // String status = ;
+  // int jumlahBarangMasuk = ;
+  // int jumlahBarangKeluar = ;
   Widget build(BuildContext context) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference kursi = firestore.collection('kursi');
