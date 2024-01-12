@@ -1,102 +1,190 @@
-// import 'dart:convert';
+import 'dart:convert';
 
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:csv/csv.dart';
-// import 'package:flutter/material.dart';
-// import 'package:file_picker/file_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csv/csv.dart';
+import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
 
-// class HistoryMeja {
-//   String id_meja;
-//   String jenis;
-//   String nama;
-//   var stock;
-//   String status;
+class HistoryMeja{
+  String id_history;
+  String id_meja;
+  var jumlah;
+  String status;
 
-//   HistoryMeja({
-//     required this.id_meja,
-//     required this.jenis,
-//     required this.nama,
-//     required this.stock,
-//     required this.status,
-//   });
+  HistoryMeja({
+    required this.id_history,
+    required this.id_meja,
+    required this.jumlah,
+    required this.status,
 
-//   Map<String, dynamic> toMap() {
-//     return {
-//       'id_meja': id_meja,
-//       'nama': nama,
-//       'jenis': jenis,
-//       'stock': stock,
-//       'status': status,
-//     };
-//   }
-// }
+  });
 
-// class Historyservice {
-//   final CollectionReference _HistoryCollection =
-//       FirebaseFirestore.instance.collection('Meja');
+  Map<String, dynamic> toMap(){
+    return {
+      'id_history' : id_history,
+      'id_meja' : id_meja,
+      'jumlah' : jumlah,
+      'status' : status,
+    };
+  }
 
-//   // Variabel untuk menyimpan data stock sementara
-//   int? _currentStock;
+}
+class HistoryMejaservice {
+  final CollectionReference _HistoryMejaCollection =
+  FirebaseFirestore.instance.collection('history_meja');
 
-//   Future<int?> getStockById(String idMeja) async {
-//     DocumentSnapshot snapshot = await _HistoryCollection.doc(idMeja).get();
-//     if (snapshot.exists) {
-//       // Simpan data stock sementara
-//       _currentStock = snapshot.data()?['stock'];
-//       return _currentStock;
-//     } else {
-//       return null; // Meja dengan ID tertentu tidak ditemukan
-//     }
-//   }
+  Future<void> importHistoryMejaFromCSV(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['csv', 'xls', 'xlsx'],
+    );
 
-//   // Metode untuk mendapatkan data stock sementara
-//   int? getCurrentStock() {
-//     return _currentStock;
-//   }
+    if (result != null){
+      PlatformFile file = result.files.first;
+      String csvString = utf8.decode(file.bytes!);
+      List<List<dynamic>> csvTable = CsvToListConverter().convert(csvString);
 
-//   // Metode untuk menghapus data stock sementara
-//   void clearCurrentStock() {
-//     _currentStock = null;
-//   }
+      for (List<dynamic> row in csvTable){
+        HistoryMeja nilai = HistoryMeja(
+          id_history: row[0] as String, 
+          id_meja: row[1], 
+          jumlah: row[2], 
+          status: row[3]);
 
-//   Future<void> importHistoryFromCSV(BuildContext context) async {
-//     FilePickerResult? result = await FilePicker.platform.pickFiles(
-//       type: FileType.custom,
-//       allowedExtensions: ['csv', 'xls', 'xlsx'],
-//     );
+          await _HistoryMejaCollection.add(nilai.toMap());
+      }
 
-//     if (result != null) {
-//       PlatformFile file = result.files.first;
-//       String csvString = utf8.decode(file.bytes!);
-//       List<List<dynamic>> csvTable = CsvToListConverter().convert(csvString);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Data HistoryMeja berhasil di impor.'),
+        )
+      );
+    }
+  }
+  Future<void> deleteHistoryMeja(String DocumentId) async {
+    await _HistoryMejaCollection.doc(DocumentId).delete();
+  }
+}
 
-//       for (List<dynamic> row in csvTable) {
-//         String idMeja = row[0] as String; // Menggunakan nama field id_meja dari CSV
-//         int quantityToAdd = row[3] as int; // Misalnya, CSV berisi id_meja di kolom pertama dan quantity di kolom keempat
+class HistoryKursi{
+  String id_history;
+  String id_kursi;
+  var jumlah;
+  String status;
 
-//         // Ambil nilai stock dari Firebase
-//         int? currentStock = await getStockById(idMeja);
+  HistoryKursi({
+    required this.id_history,
+    required this.id_kursi,
+    required this.jumlah,
+    required this.status,
 
-//         if (currentStock != null) {
-//           // Update nilai stock di Firebase dengan menambahkan nilai dari CSV
-//           await _HistoryCollection.doc(idMeja).update({'stock': currentStock + quantityToAdd});
-//         } else {
-//           print('Error: Meja dengan ID $idMeja tidak ditemukan di Firebase.');
-//         }
-//       }
+  });
 
-//       // Hapus data stock sementara setelah selesai mengimpor dari CSV
-//       clearCurrentStock();
+  Map<String, dynamic> toMap(){
+    return {
+      'id_history' : id_history,
+      'id_kursi' : id_kursi,
+      'jumlah' : jumlah,
+      'status' : status,
+    };
+  }
 
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(
-//           content: Text('Data History berhasil diimpor.'),
-//         ),
-//       );
-//     }
-//   }
+}
+class HistoryKursiservice {
+  final CollectionReference _HistoryKursiCollection =
+  FirebaseFirestore.instance.collection('history_kursi');
 
-//   Future<void> deleteHistory(String DocumentId) async {
-//     await _HistoryCollection.doc(DocumentId).delete();
-//   }
-// }
+  Future<void> importHistoryKursiFromCSV(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['csv', 'xls', 'xlsx'],
+    );
+
+    if (result != null){
+      PlatformFile file = result.files.first;
+      String csvString = utf8.decode(file.bytes!);
+      List<List<dynamic>> csvTable = CsvToListConverter().convert(csvString);
+
+      for (List<dynamic> row in csvTable){
+        HistoryKursi nilai = HistoryKursi(
+          id_history: row[0] as String, 
+          id_kursi: row[1], 
+          jumlah: row[2], 
+          status: row[3]);
+
+          await _HistoryKursiCollection.add(nilai.toMap());
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Data HistoryKursi berhasil di impor.'),
+        )
+      );
+    }
+  }
+  Future<void> deleteHistoryKursi(String DocumentId) async {
+    await _HistoryKursiCollection.doc(DocumentId).delete();
+  }
+}
+
+class HistoryLemari{
+  String id_history;
+  String id_lemari;
+  var jumlah;
+  String status;
+
+  HistoryLemari({
+    required this.id_history,
+    required this.id_lemari,
+    required this.jumlah,
+    required this.status,
+
+  });
+
+  Map<String, dynamic> toMap(){
+    return {
+      'id_history' : id_history,
+      'id_lemari' : id_lemari,
+      'jumlah' : jumlah,
+      'status' : status,
+    };
+  }
+
+}
+
+class HistoryLemariservice {
+  final CollectionReference _HistoryLemariCollection =
+  FirebaseFirestore.instance.collection('history_lemari');
+
+  Future<void> importHistoryLemariFromCSV(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['csv', 'xls', 'xlsx'],
+    );
+
+    if (result != null){
+      PlatformFile file = result.files.first;
+      String csvString = utf8.decode(file.bytes!);
+      List<List<dynamic>> csvTable = CsvToListConverter().convert(csvString);
+
+      for (List<dynamic> row in csvTable){
+        HistoryLemari nilai = HistoryLemari(
+          id_history: row[0] as String, 
+          id_lemari: row[1], 
+          jumlah: row[2], 
+          status: row[3]);
+
+          await _HistoryLemariCollection.add(nilai.toMap());
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Data HistoryLemari berhasil di impor.'),
+        )
+      );
+    }
+  }
+  Future<void> deleteHistoryLemari(String DocumentId) async {
+    await _HistoryLemariCollection.doc(DocumentId).delete();
+  }
+}

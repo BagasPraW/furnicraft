@@ -378,65 +378,75 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Positioned(
-            bottom: 16.0,
-            right: 16.0,
-            child: FloatingActionButton(
-              onPressed: () {
-                // Show bottom sheet with three options
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ListTile(
-                          leading: Icon(Icons.add),
-                          title: Text('Add Kursi'),
-                          onTap: () {
-                            // Handle Option 1
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AddKursi(),
-                                ));
-                          },
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.add),
-                          title: Text('Add Meja'),
-                          onTap: () {
-                            // Handle Option 2
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AddMeja(),
-                                ));
-                          },
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.add),
-                          title: Text('Add Lemari'),
-                          onTap: () {
-                            // Handle Option 3
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AddLemari(),
-                                ));
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: Icon(Icons.add),
-              backgroundColor: Colors.black,
-            ),
-          ),
+              bottom: 16.0,
+              right: 16.0,
+              child: Column(
+                children: [
+                  FloatingActionButton(
+                    onPressed: () {
+                      // Show bottom sheet with three options
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                leading: Icon(Icons.add),
+                                title: Text('Add Kursi'),
+                                onTap: () {
+                                  // Handle Option 1
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AddKursi(),
+                                      ));
+                                },
+                              ),
+                              ListTile(
+                                leading: Icon(Icons.add),
+                                title: Text('Add Meja'),
+                                onTap: () {
+                                  // Handle Option 2
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AddMeja(),
+                                      ));
+                                },
+                              ),
+                              ListTile(
+                                leading: Icon(Icons.add),
+                                title: Text('Add Lemari'),
+                                onTap: () {
+                                  // Handle Option 3
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AddLemari(),
+                                      ));
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Icon(Icons.add),
+                    backgroundColor: Colors.black,
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                     Navigator.pushNamed(context, 'add_history_page');
+                    },
+                    child: Icon(Icons.list),
+                    backgroundColor: Colors.black,
+                  ),
+                ],
+              )),
         ],
       ),
     );
