@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:furnicraft/screen/add_history_page.dart';
 import 'home_Screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:furnicraft/screen/create_history_manual/add_history_kursi.dart';
+import 'package:furnicraft/screen/create_history_manual/add_history_meja.dart';
+import 'package:furnicraft/screen/create_history_manual/add_history_lemari.dart';
 
 void main() {
   runApp(FurnitureHistoryPage());
@@ -44,18 +47,74 @@ class FurnitureHistoryPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Card(
-                      elevation: 4,
-                      margin: EdgeInsets.symmetric(horizontal: 16),
-                      child: ListTile(
-                        title: Text(
-                          'Create History Manually',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        onTap: () {
-                          // Add functionality for creating history manually
-                        },
-                      ),
-                    ),
+                        elevation: 4,
+                        margin: EdgeInsets.symmetric(horizontal: 16),
+                        child: ExpansionTile(
+                          title: Text('Create History Manually'),
+                          children: <Widget>[
+                            Card(
+                              elevation: 4,
+                              margin: EdgeInsets.symmetric(horizontal: 16),
+                              child: ListTile(
+                                title: Text(
+                                  'Create History Meja',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AddHistoryMeja(),
+                                      ));
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Card(
+                              elevation: 4,
+                              margin: EdgeInsets.symmetric(horizontal: 16),
+                              child: ListTile(
+                                title: Text(
+                                  'Create History Kursi',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AddHistoryKursi(),
+                                      ));
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Card(
+                              elevation: 4,
+                              margin: EdgeInsets.symmetric(horizontal: 16),
+                              child: ListTile(
+                                title: Text(
+                                  'Create History Lemari',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddHistoryLemari(),
+                                      ));
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                          ],
+                        )),
                   ),
                   Expanded(
                     child: Card(
@@ -69,7 +128,7 @@ class FurnitureHistoryPage extends StatelessWidget {
                             margin: EdgeInsets.symmetric(horizontal: 16),
                             child: ListTile(
                               title: Text(
-                                'Create History Meja by CSV',
+                                'Import History Meja by CSV',
                                 style: TextStyle(fontSize: 18),
                               ),
                               onTap: () {
@@ -87,7 +146,7 @@ class FurnitureHistoryPage extends StatelessWidget {
                             margin: EdgeInsets.symmetric(horizontal: 16),
                             child: ListTile(
                               title: Text(
-                                'Create History Kursi by CSV',
+                                'Import History Kursi by CSV',
                                 style: TextStyle(fontSize: 18),
                               ),
                               onTap: () {
@@ -105,7 +164,7 @@ class FurnitureHistoryPage extends StatelessWidget {
                             margin: EdgeInsets.symmetric(horizontal: 16),
                             child: ListTile(
                               title: Text(
-                                'Create History by CSV',
+                                'Import History by CSV',
                                 style: TextStyle(fontSize: 18),
                               ),
                               onTap: () {
