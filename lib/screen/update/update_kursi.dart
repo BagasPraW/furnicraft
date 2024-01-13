@@ -3,6 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:furnicraft/utils/rounded_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+const kTextFieldDecoration = InputDecoration(
+  hintText: 'Enter a Value',
+  hintStyle: TextStyle(color: Colors.grey),
+  contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+  border: OutlineInputBorder(), // Hapus borderRadius di sini
+  // fillColor: Color(0xFFEEF5FC),
+  // filled: true,
+  enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+    // Hapus borderRadius di sini
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Color(0xFFEEF5FC), width: 32.0),
+    // Hapus borderRadius di sini
+  ),
+);
+
 class UpdateKursi extends StatefulWidget {
   const UpdateKursi({Key? key}) : super(key: key);
 
@@ -16,6 +33,7 @@ class _UpdateKursiState extends State<UpdateKursi> {
   final TextEditingController jeniskursiController = TextEditingController();
   final TextEditingController stockkursiController = TextEditingController();
   final TextEditingController gambarkursiController = TextEditingController();
+  
   @override
   // String status = ;
   // int jumlahBarangMasuk = ;
@@ -33,7 +51,12 @@ class _UpdateKursiState extends State<UpdateKursi> {
     stockkursiController.text = args['stock'].toString();
     gambarkursiController.text = args['gambar'];
     String documentId = args['documentId'];
+    // final kursi_history = FirebaseFirestore.instance.collection("history_kursi").doc(id_kursiController.text);
+    // int jumlahBarangMasuk = 0;
+    // int jumlahBarangKeluar = 0;
+    // String status = '';
 
+    // DocumentSnapshot kursiSnapshot = await kursi_history.get();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -53,11 +76,14 @@ class _UpdateKursiState extends State<UpdateKursi> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Text("Edit Kursi", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+              SizedBox(height: 20),
               SizedBox(
                 height: 56,
                 child: TextField(
                   controller: namaController,
-                  decoration: const InputDecoration(hintText: 'Nama'),
+                                    decoration: kTextFieldDecoration.copyWith(hintText: 'Nama'),
+
                 ),
               ),
               const SizedBox(height: 8),
@@ -65,7 +91,7 @@ class _UpdateKursiState extends State<UpdateKursi> {
                 height: 56,
                 child: TextField(
                   controller: id_kursiController,
-                  decoration: const InputDecoration(hintText: 'ID Kursi'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'ID Kursi'),
                 ),
               ),
               const SizedBox(height: 8),
@@ -73,7 +99,7 @@ class _UpdateKursiState extends State<UpdateKursi> {
                 height: 56,
                 child: TextField(
                   controller: jeniskursiController,
-                  decoration: const InputDecoration(hintText: 'Jenis'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'Jenis'),
                 ),
               ),
               const SizedBox(height: 8),
@@ -81,7 +107,7 @@ class _UpdateKursiState extends State<UpdateKursi> {
                 height: 56,
                 child: TextField(
                   controller: stockkursiController,
-                  decoration: const InputDecoration(hintText: 'Stock'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'Stock'),
                   keyboardType: TextInputType.number,
                 ),
               ),
@@ -90,7 +116,7 @@ class _UpdateKursiState extends State<UpdateKursi> {
                 height: 56,
                 child: TextField(
                   controller: gambarkursiController,
-                  decoration: const InputDecoration(hintText: 'Gambar'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'Gambar'),
                 ),
               ),
               SizedBox(height: 8),

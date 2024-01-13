@@ -3,6 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:furnicraft/utils/rounded_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+const kTextFieldDecoration = InputDecoration(
+  hintText: 'Enter a Value',
+  hintStyle: TextStyle(color: Colors.grey),
+  contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+  border: OutlineInputBorder(), // Hapus borderRadius di sini
+  // fillColor: Color(0xFFEEF5FC),
+  // filled: true,
+  enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+    // Hapus borderRadius di sini
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Color(0xFFEEF5FC), width: 32.0),
+    // Hapus borderRadius di sini
+  ),
+);
+
 class UpdateMeja extends StatefulWidget {
   const UpdateMeja({Key? key}) : super(key: key);
 
@@ -50,11 +67,13 @@ class _UpdateMejaState extends State<UpdateMeja> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Text("Edit Meja", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+              SizedBox(height: 20),
               SizedBox(
                 height: 56,
                 child: TextField(
                   controller: namaController,
-                  decoration: const InputDecoration(hintText: 'Nama'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'Nama'),
                 ),
               ),
               const SizedBox(height: 8),
@@ -62,7 +81,7 @@ class _UpdateMejaState extends State<UpdateMeja> {
                 height: 56,
                 child: TextField(
                   controller: id_mejaController,
-                  decoration: const InputDecoration(hintText: 'ID meja'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'ID Meja'),
                 ),
               ),
               const SizedBox(height: 8),
@@ -70,7 +89,7 @@ class _UpdateMejaState extends State<UpdateMeja> {
                 height: 56,
                 child: TextField(
                   controller: jenismejaController,
-                  decoration: const InputDecoration(hintText: 'Jenis'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'Jenis'),
                 ),
               ),
               const SizedBox(height: 8),
@@ -78,7 +97,7 @@ class _UpdateMejaState extends State<UpdateMeja> {
                 height: 56,
                 child: TextField(
                   controller: stockmejaController,
-                  decoration: const InputDecoration(hintText: 'Stock'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'Stock'),
                   keyboardType: TextInputType.number,
                 ),
               ),
@@ -87,7 +106,7 @@ class _UpdateMejaState extends State<UpdateMeja> {
                 height: 56,
                 child: TextField(
                   controller: gambarmejaController,
-                  decoration: const InputDecoration(hintText: 'Gambar'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'Gambar'),
                 ),
               ),
               SizedBox(height: 8),

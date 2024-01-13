@@ -257,7 +257,7 @@ class FurnitureHistoryPage extends StatelessWidget {
                         IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () {
-                            _historyMejaservice.deleteHistoryMeja(document.id);
+                            _historyKursiservice.deleteHistoryKursi(document.id);
                           },
                         ),
                       ),
@@ -304,7 +304,7 @@ class FurnitureHistoryPage extends StatelessWidget {
                         IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () {
-                            _historyMejaservice.deleteHistoryMeja(document.id);
+                            _historyLemariservice.deleteHistoryLemari(document.id);
                           },
                         ),
                       ),

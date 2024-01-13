@@ -66,6 +66,18 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.white,
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            color: Colors.white,
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: FurnitureSearchDelegate(),
+              );
+            },
+          )
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -165,10 +177,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         enlargeCenterPage: true,
                       ),
                       items: [
-                        'logo_furnicraft.png',
                         'carousel_1.png',
-                        'carousel_1.png',
-                        'carousel_1.png'
+                        'carousel_2.png',
+                        'carousel_3.png',
+                        'carousel_4.png',
                         // ... add more image URLs as needed
                       ].map((item) {
                         return Builder(
@@ -189,65 +201,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       }).toList(),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.left,
-                      decoration: InputDecoration(
-                        hintStyle: TextStyle(color: Colors.grey),
-                        hintText: 'Search',
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(0xFF000000), width: 1.0),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15.0),
-                            )),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 2.0),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15.0),
-                            )),
-                        suffixIcon: IconButton(
-                            icon: Icon(Icons.search), onPressed: () {}),
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 20),
+                  Divider(),
                   const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Card(
-                          child: ListTile(
-                            title: Text('Kursi'),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Card(
-                          child: ListTile(
-                            title: Text('Meja'),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Card(
-                          child: ListTile(title: Text('Lemari')),
-                        ),
-                      ),
-                      Expanded(
-                        child: Card(
-                          child: ListTile(title: Text('Lampu')),
-                        ),
-                      )
-                    ],
-                  ),
                   SizedBox(
                     height: 40,
                   ),
@@ -460,40 +416,176 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+class FurnitureSearchDelegate extends SearchDelegate<String> {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final CollectionReference kursiCollection =
+      FirebaseFirestore.instance.collection('kursi');
+  final CollectionReference mejaCollection =
+      FirebaseFirestore.instance.collection('meja');
+  final CollectionReference lemariCollection =
+      FirebaseFirestore.instance.collection('lemari');
 
+  @override
+  String get searchFieldLabel => 'Search Furniture';
 
-// Padding(
-              //   padding: EdgeInsets.all(20),
-              //   child:
-              //   // ListView.builder(
-              //   //   itemCount: hari.length + 1,
-              //   //   itemBuilder: (context, index){
-              //   //     if (index == 0){
-              //   //       return Card(
-              //   //         margin: EdgeInsets.all(20),
-              //   //         child: ListTile(
-              //   //           title: Text('card'),
-              //   //         ),
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
 
-              //   //       );
-              //   //     }
-              //   //   }
-              //   // )
-              //   GridView.builder(
-              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //       crossAxisCount: 4, // Jumlah item dalam satu baris
-              //       crossAxisSpacing:
-              //           8.0, // Spasi antara item secara horizontal
-              //       mainAxisSpacing: 8.0, // Spasi antara item secara vertikal
-              //     ),
-              //     itemCount: cardData.length,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       return Card(
-              //         child: ListTile(
-              //           title: Text(cardData[index]),
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // )
-              
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, '');
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return FutureBuilder(
+      future: searchInCollections(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        if (snapshot.data?.isEmpty ?? true) {
+          return Center(child: Text('No results found'));
+        }
+
+        return ListView(
+          children: snapshot.data?.map<Widget>((result) {
+                // Ensure result is a QueryDocumentSnapshot
+                if (result is QueryDocumentSnapshot) {
+                  return GestureDetector(
+                    onTap: () {
+                      // Handle item tap
+                      // For example, fill the search query with the selected suggestion
+                      showResults(context);
+                    },
+                    child: ListTile(
+                      title: Text(result['nama'] ?? 'N/A'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Jenis: ${result['jenis'] ?? 'N/A'}'),
+                          Text('Stock: ${result['stock'] ?? 'N/A'}'),
+                        ],
+                      ),
+                      leading: Image.asset(
+                        result['gambar'] ??
+                            'assets/placeholder.png', // Replace with your placeholder image path
+                        width: 50, // Set your preferred width
+                        height: 50, // Set your preferred height
+                      ),
+                      // Add more details as needed
+                    ),
+                  );
+                } else {
+                  return SizedBox
+                      .shrink(); // Return an empty widget if the type is unexpected
+                }
+              })?.toList() ??
+              [], // Use the null-aware operator to handle potential null values
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return FutureBuilder(
+      future: searchInCollections(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        if (snapshot.data?.isEmpty ?? true) {
+          return Center(child: Text('No results found'));
+        }
+
+        return ListView(
+          children: snapshot.data?.map<Widget>((result) {
+                // Ensure result is a Map<String, dynamic>
+                if (result is Map<String, dynamic>) {
+                  return GestureDetector(
+                    onTap: () {
+                      // Handle item tap
+                      // For example, fill the search query with the selected suggestion
+                      showResults(context);
+                    },
+                    child: ListTile(
+                      title: Text(result['nama'] ?? 'N/A'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Jenis: ${result['jenis'] ?? 'N/A'}'),
+                          Text('Stock: ${result['stock'] ?? 'N/A'}'),
+                        ],
+                      ),
+                      leading: Image.asset(
+                        result['gambar'] ??
+                            'assets/placeholder.png', // Replace with your placeholder image path
+                        width: 50, // Set your preferred width
+                        height: 50, // Set your preferred height
+                      ),
+                      // Add more details as needed
+                    ),
+                  );
+                } else {
+                  return SizedBox
+                      .shrink(); // Return an empty widget if the type is unexpected
+                }
+              })?.toList() ??
+              [], // Use the null-aware operator to handle potential null values
+        );
+      },
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> searchInCollections() async {
+    // Search in all three collections and combine the results
+    final kursiResults = await kursiCollection
+        .where('nama', isGreaterThanOrEqualTo: query)
+        .where('nama', isLessThan: query + 'z')
+        .get();
+
+    final mejaResults = await mejaCollection
+        .where('nama', isGreaterThanOrEqualTo: query)
+        .where('nama', isLessThan: query + 'z')
+        .get();
+
+    final lemariResults = await lemariCollection
+        .where('nama', isGreaterThanOrEqualTo: query)
+        .where('nama', isLessThan: query + 'z')
+        .get();
+
+    // Combine the results from all three collections
+    final List<Map<String, dynamic>> combinedResults = [
+      ...kursiResults.docs.map((e) => e.data() as Map<String, dynamic>),
+      ...mejaResults.docs.map((e) => e.data() as Map<String, dynamic>),
+      ...lemariResults.docs.map((e) => e.data() as Map<String, dynamic>),
+    ];
+
+    return combinedResults;
+  }
+}
